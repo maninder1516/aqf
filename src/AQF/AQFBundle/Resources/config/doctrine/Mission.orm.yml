@@ -1,0 +1,35 @@
+AQF\AQFBundle\Entity\Mission:
+    type: entity
+    table: mission
+    repositoryClass: AQF\AQFBundle\Repository\MissionRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        client:
+            type: integer
+        serviceDate:
+            type: date
+            column: service_date
+        productName:
+            type: string
+            length: 255
+            column: product_name
+        quantity:
+            type: integer
+        destinationCountry:
+            type: string
+            length: 255
+            column: destination_country
+        vendorName:
+            type: string
+            length: 255
+            column: vendor_name
+        vendorEmail:
+            type: string
+            length: 255
+            column: vendor_email
+    lifecycleCallbacks: {  }

@@ -1,0 +1,3 @@
+aqf_homepage:
+    path:     /
+    defaults: { _controller: AQFBundle:Default:index }
