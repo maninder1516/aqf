@@ -8,12 +8,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function indexAction(Request $request)
+   
+    public function indexAction()
     {
         // Redirect to the Login Page
-        return $this->render('default/login.html.twig');
+        return $this->render('AppBundle:Security:login.html.twig');
     }
 }

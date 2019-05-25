@@ -1,6 +1,7 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+# app/config/routing.yml
+welcome:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
 
 login:
     path: /login

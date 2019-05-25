@@ -1,7 +1,34 @@
-{% extends "::base.html.twig" %}
-
-{% block title %}AppBundle:Security:login{% endblock %}
+{% extends 'loginbase.html.twig' %}
 
 {% block body %}
-<h1>Welcome to the Security:login page</h1>
+    <div class="container">
+        <div id="login" class="login-form">
+            <form action="{{ path('login') }}" method="post">
+                <h2 class="text-center">Log in</h2>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="email" name="_email" value="" placeholder="Username (Email)" />
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" name="_password" placeholder="Password" />
+                </div>
+        
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Login
+                    </button>
+                </div>
+                <div class="clearfix">
+                    <label class="pull-left checkbox-inline">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="pull-right">Forgot Password?</a>
+                </div>
+            </form>
+            <p class="text-center">
+                <a href="#">Create an account</a>
+            </p>
+        </div>
+    </div>
+
 {% endblock %}
