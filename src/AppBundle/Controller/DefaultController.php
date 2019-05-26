@@ -25,9 +25,9 @@ class DefaultController extends Controller
     public function loginAction(Request $request)
     {
     	$logger = $this->get('logger');
+    	$session = $this->get('session');
 
     	try {
-
     		if ($request->getMethod() == 'POST') {
     			$username = $request->request->get('_username');
     			$password = $request->request->get('_password');
@@ -38,6 +38,8 @@ class DefaultController extends Controller
                         ->findOneBy($criteria);
 
                 if ($user != NULL) {
+                	$session->set('id', $user->getId());
+                	$session->set('role', $user->getRole());
                 	// Redirects to the "mission" route
     				return $this->redirectToRoute('aqf_homepage');
 		    	}
@@ -45,7 +47,7 @@ class DefaultController extends Controller
     			// Redirect to the Login Page
         		return $this->render('AppBundle:Security:login.html.twig');
     		}	    		
-		}catch (\Exception $ex) {
+		} catch (\Exception $ex) {
 			$logger->critical('Error while login.', [
     			'cause' => 'ERROR :'.$ex 
     		]);

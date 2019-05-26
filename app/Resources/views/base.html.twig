@@ -2,21 +2,111 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Sagit Solutions | Test {% endblock %}</title>
         {% block stylesheets %}
-            <!-- Bootstrap core CSS -->
+            <!-- Bootstrap 3.3.7 -->
             <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"/>
             <link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
+            <!-- Theme style -->
+            <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}"/>
+            <!-- AdminLTE Skins. -->
+            <link rel="stylesheet" href="{{ asset('css/_all-skins.min.css') }}"/>
+            <!-- DataTables -->
+            <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap.min.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}
-            <!-- Add Java Script Files Here-->
-            <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
-            <script src="{{ asset('js/jquery-ui.js') }}"></script>
-            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-        {% endblock %}
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <!-- Header Block -->
+            {% block header %}
+                <header class="main-header">
+                <!-- Logo -->
+                <a href="index2.html" class="logo">
+                  <!-- mini logo for sidebar mini 50x50 pixels -->
+                  <span class="logo-mini"><b>A</b>QF</span>
+                  <!-- logo for regular state and mobile devices -->
+                  <span class="logo-lg"><b>AQF</b>Test</span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top">
+                  <!-- Sidebar toggle button-->
+                  <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                  </a>
+
+                  <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                      <!-- User Account: style can be found in dropdown.less -->
+                      <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          <img src="{{ asset('img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
+                          <span class="hidden-xs">Maninder Kumar</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <!-- User image -->
+                          <li class="user-header">
+                            <img src="{{ asset('img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+                          </li>
+                          <!-- Menu Footer-->
+                          <li class="user-footer">
+                            <div class="pull-right">
+                              <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                      <!-- Control Sidebar Toggle Button -->
+                      <li>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+                </header>
+            {% endblock %}
+            <!-- ./Header Block -->
+
+            <!-- Sidebar Block -->
+            <aside class="main-sidebar">
+             <li><a href="https://adminlte.io/docs"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+             </li>
+            </aside>
+            <!-- ./Sidebar Block -->
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                {% block body %}{% endblock %}
+            </div>
+            <!-- /.content-wrapper -->
+
+            {% block javascripts %}
+                <!-- Add Java Script Files Here-->
+                <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+                <script src="{{ asset('js/jquery-ui.js') }}"></script>
+                <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+                <!-- AdminLTE App -->
+                <script src="{{ asset('js/adminlte.min.js') }}"></script>
+                <!-- DataTables -->
+                <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+                <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
+            {% endblock %}
+        </div>
+        <!-- page script -->
+        <script>
+          $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+              'paging'      : true,
+              'lengthChange': false,
+              'searching'   : false,
+              'ordering'    : true,
+              'info'        : true,
+              'autoWidth'   : false
+            })
+          });
+        </script>
     </body>
 </html>
