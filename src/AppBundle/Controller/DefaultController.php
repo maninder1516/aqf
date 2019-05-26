@@ -40,6 +40,7 @@ class DefaultController extends Controller
                 if ($user != NULL) {
                 	$session->set('id', $user->getId());
                 	$session->set('role', $user->getRole());
+                    $session->set('isLogin', true);
                 	// Redirects to the "mission" route
     				return $this->redirectToRoute('aqf_homepage');
 		    	}

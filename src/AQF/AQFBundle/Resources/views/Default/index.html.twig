@@ -25,23 +25,23 @@
 	            	<table id="example1" class="table table-bordered table-striped">
 	            		<thead>
 			                <tr>
-			                  <th>Rendering engine</th>
-			                  <th>Browser</th>
-			                  <th>Platform(s)</th>
-			                  <th>Engine version</th>
-			                  <th>CSS grade</th>
+			                  <th>Username</th>
+			                  <th>Service Date</th>
+			                  <th>Product Name</th>
+			                  <th>Vendor Name</th>
+			                  <th>Vendor Email</th>
 			                </tr>
 		                </thead>
 		                <tbody>
+	                		{% for mission in missions %}
 			                <tr>
-			                  <td>Trident</td>
-			                  <td>Internet
-			                    Explorer 4.0
-			                  </td>
-			                  <td>Win 95+</td>
-			                  <td> 4</td>
-			                  <td>X</td>
+			                  <td> {{ mission.client }}</td>
+			                  <td> {{ mission.serviceDate|date('d-m-Y') }}</td>
+			                  <td> {{ mission.productName }}</td>
+			                  <td> {{ mission.vendorName }}</td>
+			                  <td> {{ mission.vendorEmail }}</td>
 			                </tr>
+			            	{% endfor %}
 			            </tbody>
 	            	</table>
 	            </div>

@@ -37,5 +37,9 @@ class MissionType extends AbstractType
         return 'aqf_aqfbundle_mission';
     }
 
+    public function getName()
+    {
+        return 'mission';
+    }
 
 }

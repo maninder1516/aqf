@@ -23,42 +23,40 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-          {{ form_start(form) }}
+          <form action="{{ path('aqf_addedit', {'mid': mid}) }}" method="post" {{ form_enctype(form) }} > 
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                {{ form_row(form.serviceDate, {'attr' : {'class':'form-control' } }) }}
+                {{ form_row(form.serviceDate, {'attr' : {'class':'form-control',      'name':'service_date' } }) }}
               </div>
               <div class="form-group">
-                {{ form_row(form.quantity, {'attr' : {'class':'form-control' } }) }}
+                {{ form_row(form.quantity, {'attr' : {'class':'form-control', 'name':'quantity' } }) }}
               </div>
               <div class="form-group">
-                
-              </div>
-              <div class="form-group">
-                {{ form_row(form.vendorName, {'attr' : {'class':'form-control' } }) }}
+                {{ form_row(form.vendorName, {'attr' : {'class':'form-control', 'name':'vendor_name' } }) }}
               </div>
             </div>
             <!-- /.col -->
             <div class="col-md-6">
               <div class="form-group">
-                {{ form_row(form.productName, {'attr' : {'class':'form-control' } }) }}
+                {{ form_row(form.productName, {'attr' : {'class':'form-control', 'name':'product_name' } }) }}
               </div>
               <div class="form-group">
-                {{ form_row(form.destinationCountry, {'attr' : {'class':'form-control' } }) }}
+                {{ form_row(form.destinationCountry, {'attr' : {'class':'form-control', 'name':'destination_ountry' } }) }}
               </div>
               <div class="form-group">
-              {{ form_row(form.vendorEmail, {'attr' : {'class':'form-control' } }) }}
+              {{ form_row(form.vendorEmail, {'attr' : {'class':'form-control', 'name':'vendor_email' } }) }}
               </div>
               <div class="form-group box-footer">
                 {# <input id="save" name="save" class="button-primary save" type="submit" value="Save" style="margin-left: 530px;" onclick="return ValidateAnnouncementDates(this);"  /> #}
-                <a href="{{ path('aqf_homepage') }}"><button type="submit" class="btn btn-primary">Save</button></a>
+                {# <a href="{{ path('aqf_save') }}"><button type="submit" class="btn btn-primary">Save</button></a> #}
+                <button type="submit" class="btn btn-primary">Save</button>
                 <a href="{{ path('aqf_homepage') }}"><button type="button" class="btn btn-info">Back to list</button></a>
               </div>
             </div>
             <!-- /.col -->
           </div>
-          {{ form_end(form) }}
+          </form>
           <!-- /.row -->
         </div>
         <!-- /.box-body -->

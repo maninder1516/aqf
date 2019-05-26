@@ -5,5 +5,10 @@ aqf_homepage:
 
 aqf_addedit:
     path:     /aqf_addedit/{mid}
-    methods: [GET]
+    methods: [GET, POST]
     defaults: { _controller: AQFBundle:Default:addedit }
+
+# aqf_save:
+#     path:     /aqf_save/
+#     methods: [POST]
+#     defaults: { _controller: AQFBundle:Default:save }
