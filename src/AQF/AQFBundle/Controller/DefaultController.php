@@ -66,7 +66,10 @@ class DefaultController extends Controller
 		        $pageSize /*limit per page*/
 		    );
 
-	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role ]);
+		    $query = $em->createQuery("SELECT u.id, u.username  FROM AppBundle:User u ");
+   			$users = $query->getResult();
+
+	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'users'=>$users ]);
     	} catch(\Exception $ex) {
     		$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
     		return $this->redirect($this->generateUrl("welcome"));
