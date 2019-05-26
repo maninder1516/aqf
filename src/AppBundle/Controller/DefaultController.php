@@ -41,6 +41,7 @@ class DefaultController extends Controller
                 	$session->set('id', $user->getId());
                 	$session->set('role', $user->getRole());
                     $session->set('isLogin', true);
+                    
                 	// Redirects to the "mission" route
     				return $this->redirectToRoute('aqf_homepage');
 		    	}
@@ -62,6 +63,7 @@ class DefaultController extends Controller
      */
     public function logoutAction(Request $request)
     {
+        // Destroy all the session before logout
         $this->get('request')->getSession()->invalidate();
         return $this->render('AppBundle:Security:login.html.twig');
     }

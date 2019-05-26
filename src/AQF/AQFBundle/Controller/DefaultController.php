@@ -7,11 +7,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface; // Include logging interface
 use AQF\AQFBundle\Entity\Mission;
 use AQF\AQFBundle\Form\MissionType;
+use AppBundle\Utils\CommonFunctions as CFs;
 
 class DefaultController extends Controller
 {
 	// private	$logger;
-
 	// private	$session;
 
 	// public function __construct()
@@ -25,31 +25,41 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-    	// Check if user is logged in else redirect to Login page
-    	if ($this->isLoggedIn() == false) {
-            return $this->redirect($this->generateUrl('welcome'));
-        }
-
-        // Get the Logger and Session
+    	// Get the Logger and Session
     	$logger = $this->get('logger');
     	$session = $this->get('session');
+
+    	// Check if user is logged in else redirect to Login page
+    	$session = $this->get('session');
+        if (CFs::isLoggedIn($session) == false) {
+            return $this->redirect($this->generateUrl('welcome'));
+        }
+ 
     	try {
     		$userId = $session->get('id');
 	    	$role = $session->get('role');
-	    	
+	    	$pageIndex = 1;
+	    	// Get page limit from configs
+	    	$pageSize = $this->getParameter('page_limit');
+	    	$currRec = $pageSize * $pageIndex - $pageSize;   
+
 	    	// Get the entity manager to query
 	    	$em = $this->getDoctrine()->getManager();
-	        $query = $em->createQuery("SELECT u FROM AQFBundle:Mission u ");
+
+	        if($role == 1)
+	        {
+	            $query = $em->createQuery('SELECT u FROM AQFBundle:Mission u ORDER BY u.serviceDate DESC')
+	            	->setMaxResults($pageSize)
+                  	->setFirstResult($currRec);
+	        } else {
+	            $query = $em->createQuery('SELECT u FROM AQFBundle:Mission u WHERE u.client = :CLIENT ORDER BY u.serviceDate DESC')
+                    ->setParameters(['CLIENT'=> $userId])
+                    ->setMaxResults($pageSize)
+                  	->setFirstResult($currRec);
+	        }
 	        $missions = $query->getResult();
 
-	        // $repository = $this->getDoctrine()->getRepository(Mission::class);
-	        // $missions = $repository->findAll();
-	        // var_dump($missions);
-	     //    echo "hi".$userId.' -- '.$role;
-	    	// die;
-	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $missions]);
-
-    		// return $this->render('AQFBundle:Default:index.html.twig', array('missions' => $missions ));
+	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $missions, 'role'=> $role ]);
     	} catch(\Exception $ex) {
     		$logger->critical('Error :', [
     			'cause' => 'ERROR :'.$ex 
@@ -100,37 +110,6 @@ class DefaultController extends Controller
     		$logger->critical('Error while Add Edit.', [
     			'cause' => 'ERROR :'.$ex 
     		]);
-    		return $this->render('AQFBundle:Default:index.html.twig');
-    	}
-    }
-
-     /**
-     *  Save a mission.
-     */
-    public function saveAction(Request $request)
-    {
-    	// Get the Logger and Session
-    	$logger = $this->get('logger');
-    	$session = $this->get('session');
-
-    	try {
-    		if ($request->getMethod() == 'POST') {
-            	$form->bindRequest($request);
-
-            	$em = $this->getDoctrine()->getManager();
-                $em->persist($dbannouncement);
-                $em->flush();
-
-            	echo "hello";
-            	die;
-        	}
-
-    		return $this->render('AQFBundle:Default:index.html.twig');
-    	} catch(\Exception $ex) {
-    		$logger->critical('Error while saving data.', [
-    			'cause' => 'ERROR :'.$ex 
-    		]);
-    		// return $this->render('AQFBundle:Default:index.html.twig');
     		return $this->render('AQFBundle:Default:index.html.twig');
     	}
     }
@@ -189,7 +168,7 @@ class DefaultController extends Controller
 	            $em->flush();
 
 	            return $this->redirect($this->generateUrl("aqf_homepage"));
-	        }{
+	        } else {
 	        	return $this->indexAction();
 	        }
         } catch(\Exception $ex) {
@@ -200,17 +179,4 @@ class DefaultController extends Controller
     		return $this->render('AQFBundle:Default:index.html.twig');
     	}
     }
-
-    /**
-     *  Check if user is Logged in.
-     */
-    private function isLoggedIn() {
-        $mySession = $this->get('session');
-        $isloginval = $mySession->get('isLogin');
-        if ($isloginval != "Y") {
-            return false;
-        }
-        return true;
-    }
-
 }
