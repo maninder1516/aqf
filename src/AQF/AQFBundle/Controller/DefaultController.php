@@ -23,7 +23,7 @@ class DefaultController extends Controller
 	/**
      *  Get the mission page.
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
     	// Check if user is logged in else redirect to Login page
     	if ($this->isLoggedIn() == false) {
@@ -37,6 +37,7 @@ class DefaultController extends Controller
     		$userId = $session->get('id');
 	    	$role = $session->get('role');
 	    	
+	    	// Get the entity manager to query
 	    	$em = $this->getDoctrine()->getManager();
 	        $query = $em->createQuery("SELECT u FROM AQFBundle:Mission u ");
 	        $missions = $query->getResult();
@@ -60,7 +61,7 @@ class DefaultController extends Controller
     /**
      *  Open a Add -Edit mission page.
      */
-    public function addeditAction(Request $request, $mid)
+    public function addeditAction(Request $request, $id)
     {
     	// Get the Logger and Session
     	$logger = $this->get('logger');
@@ -73,10 +74,10 @@ class DefaultController extends Controller
         	$mission = new Mission();
         	$mission->setClient($userId);
 
-    	    if($mid > 0) {
+    	    if($id > 0) {
 	            $mission = $this->getDoctrine()
 	                    ->getRepository('AQFBundle:Mission')
-	                    ->find($mid);
+	                    ->find($id);
 	            $actionLabel = 'Edit mission';
 	        }
 	        
@@ -85,16 +86,15 @@ class DefaultController extends Controller
 
         	// Save or Update here
         	if('POST' == $request->getMethod()) {
-				// $product = $form["productName"]->getData();
             	$em = $this->getDoctrine()->getManager();
                 $em->persist($mission);
                 $em->flush();
 
-            	return $this->render('AQFBundle:Default:index.html.twig');
+                return $this->redirect('/aqf/view/' . $mission->getId());
         	}
 
     		return $this->render('AQFBundle:Default:addedit.html.twig', [
-                    'form' => $form->createView(), 'mid' => $mid, 'actionLabel' => $actionLabel
+                    'form' => $form->createView(), 'id' => $id, 'actionLabel' => $actionLabel
                 ]);
     	} catch(\Exception $ex) {
     		$logger->critical('Error while Add Edit.', [
@@ -138,20 +138,60 @@ class DefaultController extends Controller
     /**
      *  Delete a mission.
      */
-    public function deleteAction($mid)
+    public function viewAction($id)
     {
     	try {
-	    	if ($mid > 0) {
+	    	if ($id > 0) {
 	            $mission = $this->getDoctrine()
 	                    ->getRepository('AQFBundle:Mission')
-	                    ->find($mid);
+	                    ->find($id);
+
+                if (!$mission) {
+				    throw $this->createNotFoundException(
+				    'There are no mission with the following id: ' . $id
+				    );
+			    }
+
+	     		return $this->render('AQFBundle:Default:view.html.twig',
+					    ['mission'=> $mission]);
+	        }else{
+	        	return $this->indexAction();
+	        }
+        } catch(\Exception $ex) {
+    		$logger->critical('Error while saving data.', [
+    			'cause' => 'ERROR :'.$ex 
+    		]);
+    		// return $this->render('AQFBundle:Default:index.html.twig');
+    		return $this->render('AQFBundle:Default:index.html.twig');
+    	}
+    }
+
+    /**
+     *  Delete a mission.
+     */
+    public function deleteAction($id)
+    {
+    	try {
+	    	if ($id > 0) {
+	            $mission = $this->getDoctrine()
+	                    ->getRepository('AQFBundle:Mission')
+	                    ->find($id);
+
+	            if (!$mission) {
+				    throw $this->createNotFoundException(
+				    'There are no articles with the following id: ' . $id
+				    );
+			    }
 
 	            $em = $this->getDoctrine()->getManager();
 	            $em->persist($mission);                        
 	            $em->remove($mission);
 	            $em->flush();
+
+	            return $this->redirect($this->generateUrl("aqf_homepage"));
+	        }{
+	        	return $this->indexAction();
 	        }
-        	return $this->indexAction();
         } catch(\Exception $ex) {
     		$logger->critical('Error while saving data.', [
     			'cause' => 'ERROR :'.$ex 

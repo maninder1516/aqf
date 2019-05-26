@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>Missions</h1>   
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Missions</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+        <div class="col-xs-12">
+        	<div class="box">
+        		<!-- / box-header -->
+        		<div class="box-header">
+	               	<h3 class="box-title">View Mission</h3>
+	   				<a class="btn btn-info pull-right" href="{{ path('aqf_homepage') }}">Back to list</a>
+	            </div>
+	            <!-- /.box-header -->
+	            <div class="box-body">
+	            	<table id="tbl_view" class="table table-bordered table-striped">
+		                <tbody>
+						    <tr>
+						      <th>Service Date:</th>
+						    <td>{{ mission.serviceDate|date('d-m-Y') }}</td>
+						    </tr>
+						    <tr>
+						      <th>Product Name:</th>
+						      <td>{{ mission.productName }}</td>
+						    </tr>
+						    <tr>
+						      <th>Vendor Name:</th>
+						      <td>{{ mission.vendorName }}</td>
+						    </tr>
+						    <tr>
+						      <th>Vendor Email:</th>
+						      <td>{{ mission.vendorEmail }}</td>
+						    </tr>
+						  </tbody>
+	            	</table>
+	            </div>
+        	</div>
+        	<!-- /.box -->
+        </div>
+        <!-- /.col -->
+      
+    
+    </div>
+</section>
+<!-- /.Main content -->
+
+{% endblock %}

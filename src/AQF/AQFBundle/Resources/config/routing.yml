@@ -4,9 +4,19 @@ aqf_homepage:
     defaults: { _controller: AQFBundle:Default:index }
 
 aqf_addedit:
-    path:     /aqf_addedit/{mid}
+    path:     /aqf_addedit/{id}
     methods: [GET, POST]
     defaults: { _controller: AQFBundle:Default:addedit }
+
+aqf_view:
+    path:     /aqf/view/{id}
+    methods: [GET]
+    defaults: { _controller: AQFBundle:Default:view }
+
+aqf_delete:
+    path:     /aqf/delete/{id}
+    methods: [GET]
+    defaults: { _controller: AQFBundle:Default:delete }
 
 # aqf_save:
 #     path:     /aqf_save/

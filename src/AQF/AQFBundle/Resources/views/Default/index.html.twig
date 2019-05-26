@@ -17,8 +17,8 @@
         	<div class="box">
         		<!-- / box-header -->
         		<div class="box-header">
-	              <h3 class="box-title">Data Table With Full Features</h3>
-	              <a class="btn btn-info pull-right" title="Add mission" alt="Add mission" href="{{ path('aqf_addedit',{'mid': 0}) }}">&nbsp; Add New</a>
+	              <h3 class="box-title">Missions</h3>
+	              <a class="btn btn-info pull-right" title="Add mission" alt="Add mission" href="{{ path('aqf_addedit', {'id': 0}) }}">&nbsp; Add New</a>
 	            </div>
 	            <!-- /.box-header -->
 	            <div class="box-body">
@@ -30,6 +30,7 @@
 			                  <th>Product Name</th>
 			                  <th>Vendor Name</th>
 			                  <th>Vendor Email</th>
+			                  <th>Actions</th>
 			                </tr>
 		                </thead>
 		                <tbody>
@@ -40,6 +41,10 @@
 			                  <td> {{ mission.productName }}</td>
 			                  <td> {{ mission.vendorName }}</td>
 			                  <td> {{ mission.vendorEmail }}</td>
+			                  <td>
+			                  	<a href="aqf_addedit/{{ mission.id }}"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
+			                  	<a href="aqf/delete/{{ mission.id }}"><i class="fa fa-trash-o" style="color:red"></i></a>
+		                  	  </td>
 			                </tr>
 			            	{% endfor %}
 			            </tbody>
