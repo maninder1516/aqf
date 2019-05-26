@@ -39,23 +39,18 @@ class DefaultController extends Controller
     		$userId = $session->get('id');
 	    	$role = $session->get('role');
 	    	$pageIndex = 1;
-	    	// Get page limit from configs
-	    	$pageSize = $this->getParameter('page_limit');
-	    	$currRec = $pageSize * $pageIndex - $pageSize;   
+	    	// Get page limit from config.yml
+	    	$pageSize = $this->getParameter('page_limit'); 
 
 	    	// Get the entity manager to query
 	    	$em = $this->getDoctrine()->getManager();
 
 	        if($role == 1)
 	        {
-	            $query = $em->createQuery('SELECT u FROM AQFBundle:Mission u ORDER BY u.serviceDate DESC')
-	            	->setMaxResults($pageSize)
-                  	->setFirstResult($currRec);
+	            $query = $em->createQuery('SELECT u FROM AQFBundle:Mission u ORDER BY u.serviceDate DESC');
 	        } else {
 	            $query = $em->createQuery('SELECT u FROM AQFBundle:Mission u WHERE u.client = :CLIENT ORDER BY u.serviceDate DESC')
-                    ->setParameters(['CLIENT'=> $userId])
-                    ->setMaxResults($pageSize)
-                  	->setFirstResult($currRec);
+                    ->setParameters(['CLIENT'=> $userId]);
 	        }
 
 	    	$currPage = 1;
@@ -71,8 +66,7 @@ class DefaultController extends Controller
 		        $pageSize /*limit per page*/
 		    );
 
-
-	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'pagination' => $pagination ]);
+	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role ]);
     	} catch(\Exception $ex) {
     		$logger->critical('Error :', [
     			'cause' => 'ERROR :'.$ex 

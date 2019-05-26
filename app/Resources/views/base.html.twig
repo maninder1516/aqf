@@ -93,12 +93,11 @@
         <!-- page script -->
         <script>
           $(function () {
-            $('#example1').DataTable()
-            $('#example2').DataTable({
-              'paging'      : true,
+            $('#tbl_missions').DataTable({
+              'paging'      : false,
               'lengthChange': false,
-              'searching'   : false,
-              'ordering'    : true,
+              'searching'   : true,
+              'ordering'    : false,
               'info'        : true,
               'autoWidth'   : false
             })
