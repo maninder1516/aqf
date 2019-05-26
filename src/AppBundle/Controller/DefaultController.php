@@ -50,9 +50,7 @@ class DefaultController extends Controller
         		return $this->render('AppBundle:Security:login.html.twig');
     		}	    		
 		} catch (\Exception $ex) {
-			$logger->critical('Error while login.', [
-    			'cause' => 'ERROR :'.$ex 
-    		]);
+			$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
 			// Redirect to the Login Page
         	return $this->render('AppBundle:Security:login.html.twig');
 		}

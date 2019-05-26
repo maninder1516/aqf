@@ -1,6 +1,6 @@
 AQF\AQFBundle\Entity\Mission:
     type: entity
-    table: mission
+    table: missions
     repositoryClass: AQF\AQFBundle\Repository\MissionRepository
     id:
         id:

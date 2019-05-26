@@ -68,9 +68,7 @@ class DefaultController extends Controller
 
 	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role ]);
     	} catch(\Exception $ex) {
-    		$logger->critical('Error :', [
-    			'cause' => 'ERROR :'.$ex 
-    		]);
+    		$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
     		return $this->redirect($this->generateUrl("welcome"));
     	}
     }
@@ -114,9 +112,7 @@ class DefaultController extends Controller
                     'form' => $form->createView(), 'id' => $id, 'actionLabel' => $actionLabel
                 ]);
     	} catch(\Exception $ex) {
-    		$logger->critical('Error while Add Edit.', [
-    			'cause' => 'ERROR :'.$ex 
-    		]);
+    		$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
     		return $this->render('AQFBundle:Default:index.html.twig');
     	}
     }
@@ -144,9 +140,7 @@ class DefaultController extends Controller
 	        	return $this->indexAction();
 	        }
         } catch(\Exception $ex) {
-    		$logger->critical('Error while saving data.', [
-    			'cause' => 'ERROR :'.$ex 
-    		]);
+    		$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
     		// return $this->render('AQFBundle:Default:index.html.twig');
     		return $this->render('AQFBundle:Default:index.html.twig');
     	}
@@ -179,9 +173,7 @@ class DefaultController extends Controller
 	        	return $this->indexAction();
 	        }
         } catch(\Exception $ex) {
-    		$logger->critical('Error while saving data.', [
-    			'cause' => 'ERROR :'.$ex 
-    		]);
+    		$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
     		// return $this->render('AQFBundle:Default:index.html.twig');
     		return $this->render('AQFBundle:Default:index.html.twig');
     	}
