@@ -56,4 +56,35 @@ class DefaultController extends Controller
         	return $this->render('AppBundle:Security:login.html.twig');
 		}
     }
+
+    /**
+     *  Redirect to the home page after log out.
+     */
+    public function logoutAction(Request $request)
+    {
+        $this->get('request')->getSession()->invalidate();
+        return $this->render('AppBundle:Security:login.html.twig');
+    }
+
+    /**
+     *  Redirect to the 403 errorpage.
+     */
+    public function error403Action()
+    {
+        return $this->render('AppBundle:Error:error403.html.twig');
+    }
+    /**
+     *  Redirect to the 404 errorpage.
+     */
+    public function error404Action()
+    {
+        return $this->render('AppBundle:Error:error404.html.twig');
+    }
+    /**
+     *  Redirect to the 500 errorpage.
+     */
+    public function error500Action()
+    {
+        return $this->render('AppBundle:Error:error500.html.twig');
+    }
 }
