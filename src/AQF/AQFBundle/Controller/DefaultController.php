@@ -57,14 +57,27 @@ class DefaultController extends Controller
                     ->setMaxResults($pageSize)
                   	->setFirstResult($currRec);
 	        }
-	        $missions = $query->getResult();
 
-	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $missions, 'role'=> $role ]);
+	    	$currPage = 1;
+	    	if(isset($_GET["page"])){
+	    		$currPage = $_GET["page"];
+	    	}
+
+	        $paginator  = $this->get('knp_paginator');
+		    $pagination = $paginator->paginate(
+		        $query, /* query NOT result */
+		        $currPage,
+		        // $request->query->getInt('page', 1), /*page number*/
+		        $pageSize /*limit per page*/
+		    );
+
+
+	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'pagination' => $pagination ]);
     	} catch(\Exception $ex) {
     		$logger->critical('Error :', [
     			'cause' => 'ERROR :'.$ex 
     		]);
-    		return $this->render('AQFBundle:Default:index.html.twig');
+    		return $this->redirect($this->generateUrl("welcome"));
     	}
     }
 

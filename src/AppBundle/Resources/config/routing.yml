@@ -1,14 +1,4 @@
-error403:
-    path:     /error403
-    methods: [GET]
-    defaults: { _controller: AppBundle:Default:error403 }
-
-error404:
-    path:     /error404
-    methods: [GET]
-    defaults: { _controller: AQFBundle:Default:error404 }
-
 error500:
     path:     /error500
     methods: [GET]
-    defaults: { _controller: AQFBundle:Default:error500 }
+    defaults: { _controller: AppBundle:Default:error500 }
