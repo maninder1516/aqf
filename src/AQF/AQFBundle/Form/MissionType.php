@@ -13,13 +13,12 @@ class MissionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('client')
-                ->add('serviceDate')
-                ->add('productName')
-                ->add('quantity')
-                ->add('destinationCountry')
-                ->add('vendorName')
-                ->add('vendorEmail');
+        $builder->add('serviceDate','date', array('format' => 'dd-MM-yyyy','label'=> 'Service Date :'))
+                ->add('productName', 'text', array('label'=> 'Product Name :'))
+                ->add('quantity', 'text', array('label'=> 'Quantity :'))
+                ->add('destinationCountry', 'text', array('label'=> 'Destination Country :'))
+                ->add('vendorName', 'text', array('label'=> 'Vendor Name :'))
+                ->add('vendorEmail', 'text', array('label'=> 'Vendor Email :'));
     }/**
      * {@inheritdoc}
      */

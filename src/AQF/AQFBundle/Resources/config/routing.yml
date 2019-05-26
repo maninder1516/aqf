@@ -1,3 +1,9 @@
 aqf_homepage:
     path:     /mission
+    methods: [GET]
     defaults: { _controller: AQFBundle:Default:index }
+
+aqf_addedit:
+    path:     /aqf_addedit/{mid}
+    methods: [GET]
+    defaults: { _controller: AQFBundle:Default:addedit }
