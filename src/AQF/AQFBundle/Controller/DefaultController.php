@@ -99,7 +99,8 @@ class DefaultController extends Controller
 	            $actionLabel = 'Edit mission';
 	        }
 	        
-        	$form = $this->createForm(new MissionType(), $mission);
+        	// $form = $this->createForm(new MissionType(), $mission);
+        	$form = $this->createForm(MissionType::class, $mission);
         	$form->handleRequest($request);
 
         	// Save or Update here

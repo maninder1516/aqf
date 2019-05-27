@@ -4,9 +4,6 @@ namespace AQF\AQFBundle\Entity;
 
 /**
  * Mission
- *
- * @ORM\Table(name="missions")
- * @ORM\Entity(repositoryClass="AQFBundle\Repository\MissionRepository")
  */
 class Mission
 {
@@ -17,8 +14,6 @@ class Mission
 
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="missions")
-     * @ORM\JoinColumn(name="client", referencedColumnName="id")
      */
     private $client;
 

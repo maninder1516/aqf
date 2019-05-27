@@ -4,15 +4,11 @@ namespace AppBundle\Entity;
 
 /**
  * User
- *
- * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User
 {
     /**
      * @var int
-     * @ORM\OneToMany(targetEntity="Mission", mappedBy="client")
      */
     private $id;
 
