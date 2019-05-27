@@ -98,6 +98,15 @@ class DefaultController extends Controller
 	                    ->getRepository('AQFBundle:Mission')
 	                    ->find($id);
 	            $actionLabel = 'Edit mission';
+
+	            // Redirect to Error403, if record is not cretaed by logged in user
+	            if($mission->getClient() != $userId) {
+	            	return $this->redirect($this->generateUrl("error403"));
+	            }
+	            // Redirect to Error404, if record is not found
+	            if (!$mission) {
+				    return $this->redirect($this->generateUrl("error404"));
+			    }
 	        }
 	        
         	$form = $this->createForm(MissionType::class, $mission);
@@ -109,7 +118,7 @@ class DefaultController extends Controller
                 $em->persist($mission);
                 $em->flush();
 
-                $this->addFlash('notice', Messages::SUCCESS_MISSION_SAVE);
+                $this->addFlash('notice', Messages::MSG_MISSION_SAVE_SUCCESS);
                 return $this->redirect('/aqf/view/' . $mission->getId());
         	}
 
@@ -126,17 +135,25 @@ class DefaultController extends Controller
      *  Delete a mission.
      */
     public function viewAction($id)
-    {
+    {	
+    	// Get the Logger and Session
+    	$logger = $this->get('logger');
+    	$session = $this->get('session');
+    	$userId = $session->get('id');
+
     	try {
 	    	if ($id > 0) {
 	            $mission = $this->getDoctrine()
 	                    ->getRepository('AQFBundle:Mission')
 	                    ->find($id);
 
-                if (!$mission) {
-				    throw $this->createNotFoundException(
-				    'There are no mission with the following id: ' . $id
-				    );
+	            // Redirect to Error403, if record is not cretaed by logged in user
+	            if($mission->getClient() != $userId) {
+	            	return $this->redirect($this->generateUrl("error403"));
+	            }
+	            // Redirect to Error404, if record is not found
+	            if (!$mission) {
+				    return $this->redirect($this->generateUrl("error404"));
 			    }
 
 	     		return $this->render('AQFBundle:Default:view.html.twig',
@@ -156,16 +173,24 @@ class DefaultController extends Controller
      */
     public function deleteAction($id)
     {
+    	// Get the Logger and Session
+    	$logger = $this->get('logger');
+    	$session = $this->get('session');
+    	$userId = $session->get('id');
+
     	try {
 	    	if ($id > 0) {
 	            $mission = $this->getDoctrine()
 	                    ->getRepository('AQFBundle:Mission')
 	                    ->find($id);
 
+	            // Redirect to Error403, if record is not cretaed by logged in user
+	            if($mission->getClient() != $userId) {
+	            	return $this->redirect($this->generateUrl("error403"));
+	            }
+	            // Redirect to Error404, if record is not found
 	            if (!$mission) {
-				    throw $this->createNotFoundException(
-				    'There are no articles with the following id: ' . $id
-				    );
+				    return $this->redirect($this->generateUrl("error404"));
 			    }
 
 	            $em = $this->getDoctrine()->getManager();
@@ -173,6 +198,7 @@ class DefaultController extends Controller
 	            $em->remove($mission);
 	            $em->flush();
 
+	            $this->addFlash('notice', Messages::MSG_MISSION_DELETE_SUCCESS);
 	            return $this->redirect($this->generateUrl("aqf_homepage"));
 	        } else {
 	        	return $this->indexAction();
