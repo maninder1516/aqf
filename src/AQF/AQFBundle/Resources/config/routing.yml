@@ -1,7 +1,7 @@
 aqf_homepage:
-    path:     /mission
+    path:     /mission/{searchText}
     methods: [GET]
-    defaults: { _controller: AQFBundle:Default:index }
+    defaults: { _controller: AQFBundle:Default:index , searchText: 'empty'}
 
 aqf_addedit:
     path:     /aqf_addedit/{id}

@@ -20,6 +20,12 @@
 	              <h3 class="box-title">Missions</h3>
 	              <a class="btn btn-info pull-right" title="Add mission" alt="Add mission" href="{{ path('aqf_addedit', {'id': 0}) }}"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a>
 	            </div>
+	            <div class="box-header pull-right">
+	            	Search: 
+	            	{# <input type="text" id="txtSearch" name="txtSearch" value ="{{searchText}}" onkeydown="doSearchOnEnterkeyPress(event)" /> #}
+	            	<input type="text" id="txtSearch" name="txtSearch" value ="{{searchText}}" />
+        			<input type="button" class="button-primary" value="Search" onclick="doSearch()" />
+            	</div>
 	            <!-- /.box-header -->
 	            <div class="box-body">
 	            	<table id="tbl_missions" class="table table-bordered table-striped">
@@ -67,5 +73,31 @@
     </div>
 </section>
 <!-- /.Main content -->
+
+<script language="JavaScript" type="text/javascript">
+function doSearch()
+{
+    var searchText = document.getElementById('txtSearch').value;
+    if(searchText == '') {
+        searchText = 'empty';
+    }
+   
+    var url =  "{{ path('aqf_homepage', {'searchText': 'searchTextVal' }) }}";
+    url = url.replace("searchTextVal",searchText);
+    document.location.href= url;
+}
+function doSearchOnEnterkeyPress(e)
+{
+    var searchText = document.getElementById('txtSearch').value;
+    if(searchText == '') {
+        searchText = 'empty';
+    }
+
+    var url =  "{{ path('aqf_homepage', {'searchText': 'searchTextVal' }) }}";
+    url = url.replace("searchTextVal", searchText);
+
+    document.location.href= url;   
+}
+</script>
 
 {% endblock %}

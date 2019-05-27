@@ -43,7 +43,7 @@ class DefaultController extends Controller
                     $session->set('isLogin', true);
                     
                 	// Redirects to the "mission" route
-    				return $this->redirectToRoute('aqf_homepage');
+                    return $this->redirectToRoute('aqf_homepage', ['searchText' =>'empty']);
 		    	}
     		} else {
     			// Redirect to the Login Page

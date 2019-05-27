@@ -24,7 +24,7 @@ class DefaultController extends Controller
 	/**
      *  Get the mission page.
      */
-    public function indexAction()
+    public function indexAction($searchText)
     {
     	// Get the Logger and Session
     	$logger = $this->get('logger');
@@ -48,10 +48,20 @@ class DefaultController extends Controller
 
 	        if($role == 1)
 	        {
-	            $query = $em->createQuery('SELECT u FROM AQFBundle:Mission u ORDER BY u.serviceDate DESC');
+	        	if($searchText != 'empty') { 
+	        		$query = $em->createQuery('SELECT u FROM AQFBundle:Mission u WHERE 	(u.serviceDate LIKE :ST or u.productName LIKE :ST or u.vendorName LIKE :ST or u.vendorEmail LIKE :ST or u.destinationCountry LIKE :ST) ORDER BY u.serviceDate DESC')
+	        			->setParameters(['ST'=> '%'.$searchText.'%']);
+	        	} else {
+	        		$query = $em->createQuery('SELECT u FROM AQFBundle:Mission u ORDER BY u.serviceDate DESC');
+	        	}
 	        } else {
-	            $query = $em->createQuery('SELECT u FROM AQFBundle:Mission u WHERE u.client = :CLIENT ORDER BY u.serviceDate DESC')
+	        	if($searchText != 'empty') {
+	        		$query = $em->createQuery('SELECT u FROM AQFBundle:Mission u WHERE u.client = :CLIENT AND  (u.serviceDate LIKE :ST or u.productName LIKE :ST or u.vendorName LIKE :ST or u.vendorEmail LIKE :ST or u.destinationCountry LIKE :ST ) ORDER BY u.serviceDate DESC')
+                    ->setParameters(['CLIENT'=> $userId, 'ST'=> '%'.$searchText.'%']);
+	        	} else {
+	        		$query = $em->createQuery('SELECT u FROM AQFBundle:Mission u WHERE u.client = :CLIENT ORDER BY u.serviceDate DESC')
                     ->setParameters(['CLIENT'=> $userId]);
+	        	}
 	        }
 
 	    	$currPage = 1;
@@ -74,7 +84,7 @@ class DefaultController extends Controller
    				$usersArray[$user['id']]=$user['username'];
    			}
 
-	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'users'=>$usersArray ]);
+	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'users'=>$usersArray, 'searchText'=> $searchText ]);
     	} catch(\Exception $ex) {
     		$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
     		return $this->redirect($this->generateUrl("welcome"));
@@ -163,7 +173,8 @@ class DefaultController extends Controller
 	     		return $this->render('AQFBundle:Default:view.html.twig',
 					    ['mission'=> $mission]);
 	        }else{
-	        	return $this->indexAction();
+	        	$serchText ='';
+	        	return $this->indexAction($serchText);
 	        }
         } catch(\Exception $ex) {
     		$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
