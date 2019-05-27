@@ -69,8 +69,12 @@ class DefaultController extends Controller
 
 		    $query = $em->createQuery("SELECT u.id, u.username  FROM AppBundle:User u ");
    			$users = $query->getResult();
+   			$usersArray = [];
+   			foreach ($users as $user) {
+   				$usersArray[$user['id']]=$user['username'];
+   			}
 
-	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'users'=>$users ]);
+	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'users'=>$usersArray ]);
     	} catch(\Exception $ex) {
     		$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
     		return $this->redirect($this->generateUrl("welcome"));

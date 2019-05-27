@@ -38,7 +38,7 @@
 	                		{% for mission in missions %}
 			                <tr>
 			                  {% if role == 1 %}
-			                  <td> {{ mission.client }}</td>
+			                  <td> {{ users[mission.client] }}</td>
 			                  {% endif %}
 			                  <td><a href="aqf/view/{{ mission.id }}"> 
 			                  	{{ mission.serviceDate|date('d-m-Y') }} </a>
