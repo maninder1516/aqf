@@ -31,3 +31,9 @@ body {
 .pull-right {
     float: right!important;
 }
+.margin10 {
+    margin: 10px;
+}
+.mb5{
+    margin-bottom: 5px;
+}
