@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface; // Include logging interface
 use AQF\AQFBundle\Entity\Mission;
 use AQF\AQFBundle\Form\MissionType;
 use AppBundle\Utils\CommonFunctions as CFs;
+use AQF\AQFBundle\Messages;
 
 class DefaultController extends Controller
 {
@@ -99,7 +100,6 @@ class DefaultController extends Controller
 	            $actionLabel = 'Edit mission';
 	        }
 	        
-        	// $form = $this->createForm(new MissionType(), $mission);
         	$form = $this->createForm(MissionType::class, $mission);
         	$form->handleRequest($request);
 
@@ -109,6 +109,7 @@ class DefaultController extends Controller
                 $em->persist($mission);
                 $em->flush();
 
+                $this->addFlash('notice', Messages::SUCCESS_MISSION_SAVE);
                 return $this->redirect('/aqf/view/' . $mission->getId());
         	}
 
