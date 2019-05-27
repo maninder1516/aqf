@@ -100,6 +100,7 @@ class DefaultController extends Controller
     	$logger = $this->get('logger');
     	$session = $this->get('session');
     	$userId = $session->get('id');
+    	$role = $session->get('role');
 
     	try {
         	$actionLabel = 'Add mission';
@@ -114,7 +115,7 @@ class DefaultController extends Controller
 	            $actionLabel = 'Edit mission';
 
 	            // Redirect to Error403, if record is not cretaed by logged in user
-	            if($mission->getClient() != $userId) {
+	            if($mission->getClient() != $userId && $role != 1) {
 	            	return $this->redirect($this->generateUrl("error403"));
 	            }
 	            // Redirect to Error404, if record is not found
@@ -154,6 +155,7 @@ class DefaultController extends Controller
     	$logger = $this->get('logger');
     	$session = $this->get('session');
     	$userId = $session->get('id');
+    	$role = $session->get('role');
 
     	try {
 	    	if ($id > 0) {
@@ -162,7 +164,7 @@ class DefaultController extends Controller
 	                    ->find($id);
 
 	            // Redirect to Error403, if record is not cretaed by logged in user
-	            if($mission->getClient() != $userId) {
+	            if($mission->getClient() != $userId && $role != 1) {
 	            	return $this->redirect($this->generateUrl("error403"));
 	            }
 	            // Redirect to Error404, if record is not found
@@ -192,6 +194,7 @@ class DefaultController extends Controller
     	$logger = $this->get('logger');
     	$session = $this->get('session');
     	$userId = $session->get('id');
+    	$role = $session->get('role');
 
     	try {
 	    	if ($id > 0) {
@@ -200,7 +203,7 @@ class DefaultController extends Controller
 	                    ->find($id);
 
 	            // Redirect to Error403, if record is not cretaed by logged in user
-	            if($mission->getClient() != $userId) {
+	            if($mission->getClient() != $userId && $role != 1) {
 	            	return $this->redirect($this->generateUrl("error403"));
 	            }
 	            // Redirect to Error404, if record is not found
