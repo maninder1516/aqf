@@ -1,4 +1,4 @@
-Symfony - AQP Application
+Symfony - AQF Application
 ========================
 
 What's inside?
