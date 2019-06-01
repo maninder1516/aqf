@@ -45,25 +45,42 @@ class DefaultController extends Controller
 
 	    	// Get the entity manager to query
 	    	$em = $this->getDoctrine()->getManager();
-
-	        if($role == 1)
-	        {
-	        	if($searchText != 'empty') { 
-	        		$query = $em->createQuery('SELECT u FROM AQFBundle:Mission u WHERE 	(u.serviceDate LIKE :ST or u.productName LIKE :ST or u.vendorName LIKE :ST or u.vendorEmail LIKE :ST or u.destinationCountry LIKE :ST) ORDER BY u.serviceDate DESC')
-	        			->setParameters(['ST'=> '%'.$searchText.'%']);
-	        	} else {
-	        		$query = $em->createQuery('SELECT u FROM AQFBundle:Mission u ORDER BY u.serviceDate DESC');
-	        	}
-	        } else {
-	        	if($searchText != 'empty') {
-	        		$query = $em->createQuery('SELECT u FROM AQFBundle:Mission u WHERE u.client = :CLIENT AND  (u.serviceDate LIKE :ST or u.productName LIKE :ST or u.vendorName LIKE :ST or u.vendorEmail LIKE :ST or u.destinationCountry LIKE :ST ) ORDER BY u.serviceDate DESC')
-                    ->setParameters(['CLIENT'=> $userId, 'ST'=> '%'.$searchText.'%']);
-	        	} else {
-	        		$query = $em->createQuery('SELECT u FROM AQFBundle:Mission u WHERE u.client = :CLIENT ORDER BY u.serviceDate DESC')
-                    ->setParameters(['CLIENT'=> $userId]);
-	        	}
-	        }
-
+            // Creating a QueryBuilder instance
+            $qb = $em->createQueryBuilder();
+            // SELECT
+            $qb->select(array('u.id', 'u.serviceDate', 'u.productName',   
+                'u.vendorName', 'u.vendorEmail', 'u.destinationCountry', 
+                'usr.username' ));
+            // FROM
+            $qb->from('AQFBundle:Mission', 'u');
+            $qb->leftjoin('AppBundle:User', 'usr');
+            $qb->where('u.client = usr.id');
+            // WHERE
+            if($searchText != 'empty') { 
+                $qb->where($qb->expr()->orX(
+                   $qb->expr()->like('u.serviceDate', '?1'),
+                   $qb->expr()->like('u.productName', '?1'),
+                   $qb->expr()->like('u.vendorName', '?1'),
+                   $qb->expr()->like('u.vendorEmail', '?1'),
+                   $qb->expr()->like('u.destinationCountry', '?1')
+                ));
+                if($role == 1) {
+                    $qb->where($qb->expr()->orX(
+                        $qb->expr()->like('usr.username', '?1')
+                    ));
+                }
+                $qb->setParameter(1, '%'.$searchText.'%');
+            }
+            if($role != 1) {
+                $qb->where('u.client = ?2');
+                $qb->setParameter(2, $userId);
+            }
+            // ORDER BY
+            $qb->orderBy('u.serviceDate', 'DESC');
+            
+            // Retrieve the associated Query object with the processed DQL
+            $query = $qb->getQuery();
+            // $missions = $query->getResult();
 	    	$currPage = 1;
 	    	if(isset($_GET["page"])){
 	    		$currPage = $_GET["page"];
@@ -77,14 +94,7 @@ class DefaultController extends Controller
 		        $pageSize /*limit per page*/
 		    );
 
-		    $query = $em->createQuery("SELECT u.id, u.username  FROM AppBundle:User u ");
-   			$users = $query->getResult();
-   			$usersArray = [];
-   			foreach ($users as $user) {
-   				$usersArray[$user['id']]=$user['username'];
-   			}
-
-	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'users'=>$usersArray, 'searchText'=> $searchText ]);
+	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'searchText'=> $searchText ]);
     	} catch(\Exception $ex) {
     		$logger->error('Error occured in ' . __METHOD__ . " in " . __FILE__ . " at " . __LINE__ . "\n  Error details are : " . $ex);
     		return $this->redirect($this->generateUrl("welcome"));
@@ -115,7 +125,7 @@ class DefaultController extends Controller
 	            $actionLabel = 'Edit mission';
 
 	            // Redirect to Error403, if record is not cretaed by logged in user
-	            if($mission->getClient() != $userId && $role != 1) {
+	            if($mission && $mission->getClient() != $userId && $role != 1) {
 	            	return $this->redirect($this->generateUrl("error403"));
 	            }
 	            // Redirect to Error404, if record is not found
