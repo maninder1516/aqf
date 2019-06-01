@@ -47,19 +47,19 @@
 			                  {% if role == 1 %}
 			                  <td> {{ mission.username }}</td>
 			                  {% endif %}
-			                  <td><a href="aqf/view/{{ mission.id }}"> 
+			                  <td><a href="{{ url('aqf_view',{'id': mission.id}) }}">
 			                  	{{ mission.serviceDate|date('d-m-Y') }} </a>
 			                  </td>
-			                  <td><a href="aqf/view/{{ mission.id }}">
+			                  <td><a href="{{ url('aqf_view',{'id': mission.id}) }}">
 			                  	 {{ mission.productName }} </a>
 			                  </td>
 			                  <td> {{ mission.vendorName }}</td>
 			                  <td>
 			                  	{% if role == 2 %}
-			                  	<a href="aqf_addedit/{{ mission.id }}"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
+			                  	<a href="{{ url('aqf_addedit',{'id': mission.id}) }}"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
 			                  	{% endif %}
-			                  	<a href="aqf/view/{{ mission.id }}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;&nbsp;
-			                  	<a href="aqf/delete/{{ mission.id }}"><i class="fa fa-trash-o" style="color:red"></i></a>
+			                  	<a href="{{ path('aqf_view',{'id': mission.id}) }}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;&nbsp;
+			                  	<a href="{{ url('aqf_delete',{'id': mission.id}) }}"><i class="fa fa-trash-o" style="color:red"></i></a>
 		                  	  </td>
 			                </tr>
 			            	{% endfor %}

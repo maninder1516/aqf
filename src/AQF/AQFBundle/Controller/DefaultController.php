@@ -93,6 +93,11 @@ class DefaultController extends Controller
 		        // $request->query->getInt('page', 1), /*page number*/
 		        $pageSize /*limit per page*/
 		    );
+            // echo "hello"; 
+            // echo '<pre>';
+            // var_dump($pagination);
+            // echo '</pre>';
+            // exit;
 
 	    	return $this->render('AQFBundle:Default:index.html.twig', ['missions' => $pagination, 'role'=> $role, 'searchText'=> $searchText ]);
     	} catch(\Exception $ex) {
