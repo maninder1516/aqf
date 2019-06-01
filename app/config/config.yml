@@ -7,7 +7,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    page_limit: 5
+    page_limit: '%page_size%'
 
 framework:
     #esi: ~

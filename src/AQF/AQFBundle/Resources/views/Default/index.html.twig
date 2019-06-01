@@ -18,7 +18,9 @@
         		<!-- / box-header -->
         		<div class="box-header">
 	              <h3 class="box-title">Missions</h3>
+	              {% if role == 2 %}
 	              <a class="btn btn-info pull-right" title="Add mission" alt="Add mission" href="{{ path('aqf_addedit', {'id': 0}) }}"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a>
+	              {% endif %}
 	            </div>
 	            <div class="box-header pull-right">
 	            	Search: 
@@ -53,7 +55,10 @@
 			                  </td>
 			                  <td> {{ mission.vendorName }}</td>
 			                  <td>
+			                  	{% if role == 2 %}
 			                  	<a href="aqf_addedit/{{ mission.id }}"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
+			                  	{% endif %}
+			                  	<a href="aqf/view/{{ mission.id }}"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;&nbsp;
 			                  	<a href="aqf/delete/{{ mission.id }}"><i class="fa fa-trash-o" style="color:red"></i></a>
 		                  	  </td>
 			                </tr>

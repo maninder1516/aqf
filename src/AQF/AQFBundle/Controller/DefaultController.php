@@ -72,7 +72,7 @@ class DefaultController extends Controller
                 $qb->setParameter(1, '%'.$searchText.'%');
             }
             if($role != 1) {
-                $qb->where('u.client = ?2');
+                $qb->andWhere('u.client = ?2');
                 $qb->setParameter(2, $userId);
             }
             // ORDER BY
@@ -126,11 +126,11 @@ class DefaultController extends Controller
 
 	            // Redirect to Error403, if record is not cretaed by logged in user
 	            if($mission && $mission->getClient() != $userId && $role != 1) {
-	            	return $this->redirect($this->generateUrl("error403"));
+                    return $this->render('AppBundle:Error:error403.html.twig');
 	            }
 	            // Redirect to Error404, if record is not found
 	            if (!$mission) {
-				    return $this->redirect($this->generateUrl("error404"));
+                    return $this->render('AppBundle:Error:error404.html.twig');
 			    }
 	        }
 	        
@@ -174,13 +174,13 @@ class DefaultController extends Controller
 	                    ->find($id);
 
 	            // Redirect to Error403, if record is not cretaed by logged in user
-	            if($mission->getClient() != $userId && $role != 1) {
-	            	return $this->redirect($this->generateUrl("error403"));
-	            }
-	            // Redirect to Error404, if record is not found
-	            if (!$mission) {
-				    return $this->redirect($this->generateUrl("error404"));
-			    }
+	            if($mission && $mission->getClient() != $userId && $role != 1) {
+                    return $this->render('AppBundle:Error:error403.html.twig');
+                }
+                // Redirect to Error404, if record is not found
+                if (!$mission) {
+                    return $this->render('AppBundle:Error:error404.html.twig');
+                }
 
 	     		return $this->render('AQFBundle:Default:view.html.twig',
 					    ['mission'=> $mission]);
@@ -213,13 +213,13 @@ class DefaultController extends Controller
 	                    ->find($id);
 
 	            // Redirect to Error403, if record is not cretaed by logged in user
-	            if($mission->getClient() != $userId && $role != 1) {
-	            	return $this->redirect($this->generateUrl("error403"));
-	            }
-	            // Redirect to Error404, if record is not found
-	            if (!$mission) {
-				    return $this->redirect($this->generateUrl("error404"));
-			    }
+	            if($mission && $mission->getClient() != $userId && $role != 1) {
+                    return $this->render('AppBundle:Error:error403.html.twig');
+                }
+                // Redirect to Error404, if record is not found
+                if (!$mission) {
+                    return $this->render('AppBundle:Error:error404.html.twig');
+                }
 
 	            $em = $this->getDoctrine()->getManager();
 	            $em->persist($mission);                        
