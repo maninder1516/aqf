@@ -2,10 +2,13 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
+
 /**
  * User
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -108,6 +111,22 @@ class User
     public function getRole()
     {
         return $this->role;
+    }
+
+
+    public function getSalt()
+    {
+        // The bcrypt algorithm doesn't require a separate salt.
+        // You *may* need a real salt if you choose a different encoder.
+        return null;
+    }
+     public function getRoles()
+    {
+        return $this->role;
+    }
+
+    public function eraseCredentials()
+    {
     }
 }
 

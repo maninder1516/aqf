@@ -46,11 +46,14 @@ class CreateUserCommand extends ContainerAwareCommand
 	    $role = $input->getArgument('role');
 
 	    // Create the User
-        $encodedPassword = md5($password);
         $user = new User;
 	    $user->setUsername($username);
-	    $user->setPassword($encodedPassword);
 	    $user->setRole($role);
+
+	    $encoder = $this->getContainer()->get('security.password_encoder');
+		$encodedPassword = $encoder->encodePassword($user, $password);
+        // $encodedPassword = md5($password);
+        $user->setPassword($encodedPassword);
 
 	    // Save the User
 	    $em = $this->getContainer()->get('doctrine')->getManager();
