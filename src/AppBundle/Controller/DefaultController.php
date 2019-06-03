@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface; // Include logging interface
 use AppBundle\Entity\User;
+use AppBundle\Utils\Messages;
 
 class DefaultController extends Controller
 {
@@ -44,7 +45,10 @@ class DefaultController extends Controller
                     
                 	// Redirects to the "mission" route
                     return $this->redirectToRoute('aqf_homepage', ['searchText' =>'empty']);
-		    	}
+		    	} else {
+                    $this->addFlash('error', Messages::ERR_CREDENTIAL_NOT_FOUND);
+                    return $this->redirect($this->generateUrl('welcome'));
+                }
     		} else {
     			// Redirect to the Login Page
         		return $this->render('AppBundle:Security:login.html.twig');

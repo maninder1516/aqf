@@ -52,7 +52,6 @@ class CreateUserCommand extends ContainerAwareCommand
 
 	    $encoder = $this->getContainer()->get('security.password_encoder');
 		$encodedPassword = $encoder->encodePassword($user, $password);
-        // $encodedPassword = md5($password);
         $user->setPassword($encodedPassword);
 
 	    // Save the User

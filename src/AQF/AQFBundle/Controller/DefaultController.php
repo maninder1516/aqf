@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface; // Include logging interface
 use AQF\AQFBundle\Entity\Mission;
 use AQF\AQFBundle\Form\MissionType;
 use AppBundle\Utils\CommonFunctions as CFs;
-use AQF\AQFBundle\Messages;
+use AppBundle\Utils\Messages;
 
 class DefaultController extends Controller
 {
